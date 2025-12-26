@@ -3,6 +3,8 @@ import json
 from datetime import datetime
 from sources.g2 import scrape_g2
 from sources.capterra import scrape_capterra
+from sources.trustradius import scrape_trustradius
+
 
 def main():
     parser = argparse.ArgumentParser()
@@ -20,10 +22,11 @@ def main():
         reviews = scrape_g2(args.company, start, end)
     elif args.source.lower() == "capterra":
         reviews = scrape_capterra(args.company, start, end)
+    elif args.source.lower() in ["trustradius", "trustradius"]:
+        reviews = scrape_trustradius(args.company, start, end)
     else:
         print("Invalid source")
         return
-
     with open("output/sample_reviews.json", "w") as f:
         json.dump(reviews, f, indent=2)
 
